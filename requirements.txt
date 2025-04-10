@@ -1,0 +1,4 @@
+flask
+werkzeug
+flask-wtf
+python-dotenv
