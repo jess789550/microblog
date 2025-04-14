@@ -16,6 +16,71 @@ flask run
 ## View website on local host
 http://127.0.0.1:5000/
 
+## Initialise database
+```
+flask db init
+```
+
+## Migrate database
+```
+flask db migrate
+flask db upgrade
+```
+
+## Undo last migration
+```
+flask db downgrade
+```
+
+## Manipulate database through command line
+```
+flask shell
+
+# Create new user
+u = User(username='john', email='john@example.com')
+db.session.add(u)
+db.session.commit()
+
+# Undo
+db.session.rollback()
+
+# Query database
+query = sa.select(User)
+users = db.session.scalars(query).all()
+users
+
+# db.session.scalars() method executes the database query and returns a results iterator
+users = db.session.scalars(query)
+for u in users:
+    print(u.id, u.username)
+
+# Add blog post
+u = db.session.get(User, 1)
+p = Post(body='my first post!', author=u)
+db.session.add(p)
+db.session.commit()
+
+# get all posts written by a user
+u = db.session.get(User, 1)
+query = u.posts.select()
+posts = db.session.scalars(query).all()
+posts
+
+# print post author and body for all posts
+query = sa.select(Post)
+posts = db.session.scalars(query)
+for p in posts:
+    print(p.id, p.author.username, p.body)
+
+# get all users in reverse alphabetical order
+query = sa.select(User).order_by(User.username.desc())
+db.session.scalars(query).all()
+
+# get all users that have usernames starting with "s"
+query = sa.select(User).where(User.username.like('s%'))
+db.session.scalars(query).all()
+```
+
 ## Comparison to Django
 - Nice SQL syntax (Django has it's own version of SQL)
 - Django views.py and urls.py are combined into Flask routes.py
@@ -35,3 +100,8 @@ http://127.0.0.1:5000/
 - The form.validate_on_submit() method does all the form processing work. 
 - using a "with" construct assigns the result of calling get_flashed_messages() to a messages variable, all in the context of the template.
 - Flask provides a function called url_for(), which generates URLs using its internal mapping of URLs to view functions.
+- Flask-SQLAlchemy, an extension that provides a Flask-friendly wrapper to the popular SQLAlchemy package, which is an Object Relational Mapper or ORM.
+- Alembic (the migration framework used by Flask-Migrate) will make these schema changes in a way that does not require the database to be recreated from scratch every time a change is made.
+- Alembic maintains a migration repository, which is a directory in which it stores its migration scripts
+- With a regular interpreter session, the app symbol is not known unless it is explicitly imported, but when using flask shell, the command pre-imports the application instance, and pushes its application context for you.
+- The app.shell_context_processor decorator registers the function as a shell context function. 
