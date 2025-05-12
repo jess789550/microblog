@@ -2,3 +2,7 @@ flask
 werkzeug
 flask-wtf
 python-dotenv
+flask-login
+flask-sqlalchemy
+flask-migrate
+email-validator
