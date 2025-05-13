@@ -84,6 +84,11 @@ query = sa.select(User).where(User.username.like('s%'))
 db.session.scalars(query).all()
 ```
 
+## Run unit tests
+```
+python tests.py
+```
+
 ## Comparison to Django
 - Nice SQL syntax (Django has it's own version of SQL)
 - Django views.py and urls.py are combined into Flask routes.py
@@ -117,3 +122,4 @@ db.session.scalars(query).all()
 - You can email errors automatically (see config.py)
 - The RotatingFileHandler class is nice because it rotates the logs, ensuring that the log files do not grow too large when the application runs for a long time. In this case I'm limiting the size of the log file to 10KB
 - Logging categories: DEBUG, INFO, WARNING, ERROR and CRITICAL
+- SQL DB relationships: one-to-many, many-to-many, one-to-one, many-to-one
