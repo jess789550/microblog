@@ -3,7 +3,7 @@ Flask Mega-Tutorial https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial
 
 ## How to run
 ```
-# Activate environment that has flask and werkzeug installed
+# Activate environment that has requirements.txt installed
 source venv/bin/activate
 
 # Export Flask App PATH
