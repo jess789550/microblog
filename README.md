@@ -108,3 +108,12 @@ db.session.scalars(query).all()
 - Alembic maintains a migration repository, which is a directory in which it stores its migration scripts
 - With a regular interpreter session, the app symbol is not known unless it is explicitly imported, but when using flask shell, the command pre-imports the application instance, and pushes its application context for you.
 - The app.shell_context_processor decorator registers the function as a shell context function. 
+- One of the packages that implement password hashing is Werkzeug
+- Flask extension Flask-Login manages the user logged-in state, so that for example users can log in to the application and then navigate to different pages while the application "remembers" that the user is logged in.
+- Flask-Login keeps track of the logged in user by storing its unique identifier in Flask's user session, a storage space assigned to each user who connects to the application. 
+-  If a user who is not logged in tries to view a protected page, Flask-Login will automatically redirect the user to the login form, and only redirect back to the page the user wanted to view after the login process is complete.
+- Gravatar is great for avatars: https://gravatar.com/
+- You can use Jinja sub-templates using the _ prefix for a HTML template
+- You can email errors automatically (see config.py)
+- The RotatingFileHandler class is nice because it rotates the logs, ensuring that the log files do not grow too large when the application runs for a long time. In this case I'm limiting the size of the log file to 10KB
+- Logging categories: DEBUG, INFO, WARNING, ERROR and CRITICAL
