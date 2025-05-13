@@ -9,6 +9,9 @@ source venv/bin/activate
 # Export Flask App PATH
 export FLASK_APP=microblog.py
 
+# To activate debug mode
+export FLASK_DEBUG=1
+
 # Run app
 flask run
 ```
@@ -84,7 +87,7 @@ db.session.scalars(query).all()
 ## Comparison to Django
 - Nice SQL syntax (Django has it's own version of SQL)
 - Django views.py and urls.py are combined into Flask routes.py
-- forms.py similar
+- forms.py and models.py similar functions
 - \_\_init\_\_.py not in Django but in Flask
 
 ## Notes
