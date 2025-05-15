@@ -19,6 +19,11 @@ flask run
 ## View website on local host
 http://127.0.0.1:5000/
 
+## View ports in use
+```
+lsof -i4
+```
+
 ## Initialise database
 ```
 flask db init
@@ -123,3 +128,4 @@ python tests.py
 - The RotatingFileHandler class is nice because it rotates the logs, ensuring that the log files do not grow too large when the application runs for a long time. In this case I'm limiting the size of the log file to 10KB
 - Logging categories: DEBUG, INFO, WARNING, ERROR and CRITICAL
 - SQL DB relationships: one-to-many, many-to-many, one-to-one, many-to-one
+- Flask-SQLAlchemy supports pagination natively with the db.paginate() function, which works like db.session.scalars(), but with pagination built-in.
