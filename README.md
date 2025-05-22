@@ -131,3 +131,6 @@ python tests.py
 - Flask-SQLAlchemy supports pagination natively with the db.paginate() function, which works like db.session.scalars(), but with pagination built-in.
 - A popular token standard for this password reset is the JSON Web Token, or JWT. The nice thing about JWTs is that they are self-contained. You can send a token to a user in an email, and when the user clicks the link that feeds the token back into the application, it can be verified on its own.
 - Python has support for running asynchronous tasks, actually in more than one way. The threading and multiprocessing modules can both do this.
+- A CSS framework provides a collection of high-level CSS classes with pre-made styles for common types of user interface elements. 
+- One of the most popular CSS frameworks is Bootstrap.
+- The most direct way to use Bootstrap is to simply import the bootstrap.min.css file in your base template. You can either download a copy of this file and add it to your project, or import it directly from a Content Delivery Network.
