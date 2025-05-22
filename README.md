@@ -104,26 +104,31 @@ python tests.py
 - The application will exist in a package. In Python, a subdirectory that includes a \_\_init\_\_.py file is considered a package, and can be imported.
 - The routes routes.py handle the different URLs that the application supports.
 - To complete the application, you need to have a Python script microblog.py at the top-level that defines the Flask application instance. 
+
 - The render_template() function invokes the Jinja template engine that comes bundled with the Flask framework. Jinja substitutes HTML {{ ... }} blocks with the corresponding values, given by the arguments provided in the render_template() call.
 - HTML templates inherit from base.html
 - the Flask-WTF extension is a thin wrapper around the WTForms package that nicely integrates it with Flask. 
 - There are several formats for the application to specify configuration options. The most basic solution is to define your variables as keys in app.config, which uses a dictionary style to work with variables.
 - The Flask-WTF extension uses Python classes to represent web forms. A form class simply defines the fields of the form as class variables.
+
 - The form.hidden_tag() template argument generates a hidden field that includes a token that is used to protect the form against CSRF attacks.
 - The form.validate_on_submit() method does all the form processing work. 
 - using a "with" construct assigns the result of calling get_flashed_messages() to a messages variable, all in the context of the template.
 - Flask provides a function called url_for(), which generates URLs using its internal mapping of URLs to view functions.
 - Flask-SQLAlchemy, an extension that provides a Flask-friendly wrapper to the popular SQLAlchemy package, which is an Object Relational Mapper or ORM.
+
 - Alembic (the migration framework used by Flask-Migrate) will make these schema changes in a way that does not require the database to be recreated from scratch every time a change is made.
 - Alembic maintains a migration repository, which is a directory in which it stores its migration scripts
 - With a regular interpreter session, the app symbol is not known unless it is explicitly imported, but when using flask shell, the command pre-imports the application instance, and pushes its application context for you.
 - The app.shell_context_processor decorator registers the function as a shell context function. 
+
 - One of the packages that implement password hashing is Werkzeug
 - Flask extension Flask-Login manages the user logged-in state, so that for example users can log in to the application and then navigate to different pages while the application "remembers" that the user is logged in.
 - Flask-Login keeps track of the logged in user by storing its unique identifier in Flask's user session, a storage space assigned to each user who connects to the application. 
 -  If a user who is not logged in tries to view a protected page, Flask-Login will automatically redirect the user to the login form, and only redirect back to the page the user wanted to view after the login process is complete.
 - Gravatar is great for avatars: https://gravatar.com/
 - You can use Jinja sub-templates using the _ prefix for a HTML template
+
 - You can email errors automatically (see config.py)
 - The RotatingFileHandler class is nice because it rotates the logs, ensuring that the log files do not grow too large when the application runs for a long time. In this case I'm limiting the size of the log file to 10KB
 - Logging categories: DEBUG, INFO, WARNING, ERROR and CRITICAL
@@ -131,6 +136,13 @@ python tests.py
 - Flask-SQLAlchemy supports pagination natively with the db.paginate() function, which works like db.session.scalars(), but with pagination built-in.
 - A popular token standard for this password reset is the JSON Web Token, or JWT. The nice thing about JWTs is that they are self-contained. You can send a token to a user in an email, and when the user clicks the link that feeds the token back into the application, it can be verified on its own.
 - Python has support for running asynchronous tasks, actually in more than one way. The threading and multiprocessing modules can both do this.
+
 - A CSS framework provides a collection of high-level CSS classes with pre-made styles for common types of user interface elements. 
 - One of the most popular CSS frameworks is Bootstrap.
 - The most direct way to use Bootstrap is to simply import the bootstrap.min.css file in your base template. You can either download a copy of this file and add it to your project, or import it directly from a Content Delivery Network.
+
+- As it turns out, the web browser knows the user's timezone, and exposes it through the standard date and time JavaScript APIs. There are actually two ways to take advantage of the timezone information available via JavaScript:
+    - The "old school" approach would be to have the web browser somehow send the timezone information to the server when the user first logs in to the application. This could be done with an Ajax call, or much more simply with a meta refresh tag. Once the server knows the timezone it can keep it in the user's session or write it to the users table in the database, and from then on adjust all timestamps with it at the time templates are rendered.
+    - The "new school" approach would be to not change a thing in the server, and let the conversion from UTC to local timezone happen in the browser, using JavaScript.
+- Moment.js is a small open-source JavaScript library that takes date and time rendering to another level, as it provides every imaginable formatting option, and then some.
+    - Moment.js makes a moment class available to the browser. The first step to render a timestamp is to create an object of this class, passing the desired timestamp in ISO 8601 format: {yyyy}-{mm}-{dd}T{hh}:{mm}:{ss}{tz}
