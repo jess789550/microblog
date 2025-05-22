@@ -129,3 +129,5 @@ python tests.py
 - Logging categories: DEBUG, INFO, WARNING, ERROR and CRITICAL
 - SQL DB relationships: one-to-many, many-to-many, one-to-one, many-to-one
 - Flask-SQLAlchemy supports pagination natively with the db.paginate() function, which works like db.session.scalars(), but with pagination built-in.
+- A popular token standard for this password reset is the JSON Web Token, or JWT. The nice thing about JWTs is that they are self-contained. You can send a token to a user in an email, and when the user clicks the link that feeds the token back into the application, it can be verified on its own.
+- Python has support for running asynchronous tasks, actually in more than one way. The threading and multiprocessing modules can both do this.
