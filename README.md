@@ -192,3 +192,7 @@ flask translate compile
 - To do real time translations of user posts, the client browser will send asynchronous requests to the server, to which the server will respond without causing a page refresh.
 - The client will then insert the translations into the current page dynamically. 
 - This technique is known as Ajax, which is short for Asynchronous JavaScript and XML (even though these days XML is often replaced with JSON).
+
+### Chapter 15: Better Application Structure
+- In Flask, a blueprint is a logical structure that represents a subset of the application. A blueprint can include elements such as routes, view functions, forms, templates and static files.
+- The contents of a blueprint are initially in a dormant state. To activate these elements, the blueprint needs to be registered with the application.
