@@ -17,3 +17,4 @@ elasticsearch
 pymysql
 gunicorn
 cryptography
+psycopg2-binary

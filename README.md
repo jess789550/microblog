@@ -374,3 +374,6 @@ sudo supervisorctl start microblog    # start a new server
 - The nginx server is going to accept all requests that come from the outside world, and forward them to the application. 
 - Finally, I'm going to use git as my tool of choice to download the application directly from its git repository.
 - The Raspberry Pi is a low-cost revolutionary little Linux computer
+
+### Chapter 18: Deploy on Heroku
+- Heroku was one of the first "platform-as-a-service" providers. It started as a hosting option for Ruby based applications, but then grew to support many other languages like Java, Node.js and of course Python.
