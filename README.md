@@ -12,6 +12,9 @@ export FLASK_APP=microblog.py
 # To activate debug mode
 export FLASK_DEBUG=1
 
+# Use Google/MS Azure API for translation
+export MS_TRANSLATOR_KEY=<paste-your-key-here>
+
 # Run app
 flask run
 ```
@@ -181,3 +184,11 @@ flask translate compile
 - Once you have the application with all the _() and _l() in place, you can use the pybabel command to extract them to a .pot file, which stands for portable object template.
 - The way texts are marked for translation is by wrapping them in a function call that as a convention is called _(), just an underscore. 
 - Flask-Babel provides a lazy evaluation version of _() that is called lazy_gettext() 
+
+### Chapter 14: Ajax
+- Server-side: HTTP requests give HTML page
+- Client-side: HTML + JavaScript page
+- A single-page application (SPA) is a web application or website that interacts with the user by dynamically rewriting the current web page with new data from the web server, instead of the default method of loading entire new pages.
+- To do real time translations of user posts, the client browser will send asynchronous requests to the server, to which the server will respond without causing a page refresh.
+- The client will then insert the translations into the current page dynamically. 
+- This technique is known as Ajax, which is short for Asynchronous JavaScript and XML (even though these days XML is often replaced with JSON).
