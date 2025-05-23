@@ -5,3 +5,5 @@
 /lib
 /lib64
 pyvenv.cfg
+messages.pot
+/logs
