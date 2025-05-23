@@ -37,15 +37,15 @@ msgstr "El usuario %(username)s no ha sido encontrado."
 
 #: app/templates/404.html:4
 msgid "File Not Found"
-msgstr ""
+msgstr "¡Archivo no encontrado!"
 
 #: app/templates/_post.html:14
 #, python-format
 msgid "%(username)s said %(when)s"
-msgstr ""
+msgstr "%(username)s dijo %(when)s"
 
 #: app/templates/index.html:4
 #, python-format
 msgid "Hi, %(username)s!"
-msgstr ""
+msgstr "¡Hola, %(username)s!"
 

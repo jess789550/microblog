@@ -14,6 +14,7 @@ from flask_babel import lazy_gettext as _l
 def get_locale():
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 #    return 'es'
+#    return 'de'
 
 app = Flask(__name__)
 app.config.from_object(Config)
