@@ -115,6 +115,159 @@ flask translate update
 flask translate compile
 ```
 
+## Deploy on Linux using Vagrant
+```
+# Create server
+vagrant up
+
+# Open terminal session
+ssh root@<server-ip-address>
+vagrant ssh
+
+# Create user account called ubuntu
+adduser --gecos "" ubuntu
+usermod -aG sudo ubuntu
+su ubuntu
+
+# Check if key exists
+ls ~/.ssh
+
+# Create SSH keypair
+ssh-keygen
+
+# Print public key
+cat ~/.ssh/id_rsa.pub
+
+# Store public key
+echo <paste-your-key-here> >> ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+
+# Login password-less
+ssh ubuntu@<server-ip-address>
+
+# Change /etc/ssh/sshd_config to disable root logins and passwords
+# PermitRootLogin no
+# PasswordAuthentication no
+
+# Restart service
+sudo service ssh restart
+
+# Make firewall
+sudo apt-get install -y ufw
+sudo ufw allow ssh
+sudo ufw allow http
+sudo ufw allow 443/tcp
+sudo ufw --force enable
+sudo ufw status
+
+# Install base dependencies
+sudo apt-get -y update
+sudo apt-get -y install python3 python3-venv python3-dev
+sudo apt-get -y install mysql-server postfix supervisor nginx git
+
+# Installing the application
+git clone https://github.com/miguelgrinberg/microblog
+cd microblog
+git checkout v0.17
+
+# Make venv
+python3 -m venv venv
+source venv/bin/activate
+
+# Generate secret key for .env file
+python3 -c "import uuid; print(uuid.uuid4().hex)"
+
+# Compile language translations
+flask translate compile
+
+# Set up MySQL
+sudo mysql -u root
+create database microblog character set utf8 collate utf8_bin;
+create user 'microblog'@'localhost' identified by '<db-password>';
+grant all privileges on microblog.* to 'microblog'@'localhost';
+flush privileges;
+quit;
+
+# Upgrade DB
+flask db upgrade
+
+# Set up Gunicorn
+gunicorn -b localhost:8000 -w 4 microblog:app
+
+# /etc/supervisor/conf.d/microblog.conf: Supervisor configuration.
+[program:microblog]
+command=/home/ubuntu/microblog/venv/bin/gunicorn -b localhost:8000 -w 4 microblog:app
+directory=/home/ubuntu/microblog
+user=ubuntu
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
+
+# Reload supervisor service
+sudo supervisorctl reload
+
+# Set up nginx
+mkdir certs
+openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 \
+  -keyout certs/key.pem -out certs/cert.pem
+
+# /etc/nginx/sites-available/microblog: Nginx configuration.
+server {
+    # listen on port 80 (http)
+    listen 80;
+    server_name _;
+    location / {
+        # redirect any requests to the same URL but on https
+        return 301 https://$host$request_uri;
+    }
+}
+server {
+    # listen on port 443 (https)
+    listen 443 ssl;
+    server_name _;
+
+    # location of the self-signed SSL certificate
+    ssl_certificate /home/ubuntu/microblog/certs/cert.pem;
+    ssl_certificate_key /home/ubuntu/microblog/certs/key.pem;
+
+    # write access and error logs to /var/log
+    access_log /var/log/microblog_access.log;
+    error_log /var/log/microblog_error.log;
+
+    location / {
+        # forward application requests to the gunicorn server
+        proxy_pass http://localhost:8000;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /static {
+        # handle static files directly, without forwarding to the application
+        alias /home/ubuntu/microblog/app/static;
+        expires 30d;
+    }
+}
+
+# Remove test site
+sudo rm /etc/nginx/sites-enabled/default
+
+# Create link to microblog
+sudo ln -s /etc/nginx/sites-available/microblog /etc/nginx/sites-enabled/microblog
+
+# Reload configuration
+sudo service nginx reload
+
+# Upgrade deloyed app
+git pull                              # download the new version
+sudo supervisorctl stop microblog     # stop the current server
+flask db upgrade                      # upgrade the database
+flask translate compile               # upgrade the translations
+sudo supervisorctl start microblog    # start a new server
+```
+
 ## Comparison to Django
 - Nice SQL syntax (Django has it's own version of SQL)
 - Django views.py and urls.py are combined into Flask routes.py
@@ -206,3 +359,15 @@ flask translate compile
 ### Chapter 16: Full Text Search
 - There are several open-source full-text engines: Elasticsearch, Apache Solr, Whoosh, Xapian, Sphinx, etc.
 - Elasticsearch is one that stands out to me as being fairly popular, in part due to its popularity as the "E" in the ELK stack for indexing logs, along with Logstash and Kibana.
+
+### Chapter 17: Deploy on Linux
+- These days there are many economic hosting services. For example, for $5 per month, Digital Ocean, Linode, or Amazon Lightsail will rent you a virtualized Linux server in which to run your deployment experiments (Linode and Digital Ocean provision their entry level servers with 1GB of RAM, while Amazon provides only 512MB). 
+- If you prefer to practice deployments without spending any money, then Vagrant and VirtualBox are two tools that combined allow you to create a virtual server similar to the paid ones on your own computer.
+- The file id_rsa.pub is your public key, which is a file that you will provide to third parties as a way to identify you. 
+- The id_rsa file is your private key, which should not be shared with anyone.
+- For a database server, I'm going to switch from SQLite to MySQL. 
+- The postfix package is a mail transfer agent that I will use to send out emails. 
+- The supervisor tool will monitor the Flask server process and automatically restart it if it ever crashes, or also if the server is rebooted. 
+- The nginx server is going to accept all requests that come from the outside world, and forward them to the application. 
+- Finally, I'm going to use git as my tool of choice to download the application directly from its git repository.
+- The Raspberry Pi is a low-cost revolutionary little Linux computer
