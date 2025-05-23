@@ -271,6 +271,53 @@ flask translate compile               # upgrade the translations
 sudo supervisorctl start microblog    # start a new server
 ```
 
+## Deploy using Docker
+```
+# Build image
+docker build -t microblog:latest .
+
+# View images
+docker images
+
+# Add MySQL container
+docker network create microblog-network
+
+docker run --name mysql -d -e MYSQL_RANDOM_ROOT_PASSWORD=yes \
+    -e MYSQL_DATABASE=microblog -e MYSQL_USER=microblog \
+    -e MYSQL_PASSWORD=<database-password> \
+    --network microblog-network \
+    mysql:latest
+
+# Add Elasticsearch Container
+docker run --name elasticsearch -d --rm -p 9200:9200 \
+    -e discovery.type=single-node -e xpack.security.enabled=false \
+    --network microblog-network \
+    -t docker.elastic.co/elasticsearch/elasticsearch:8.11.1
+
+# Run microblog container
+docker run --name microblog -d -p 8000:5000 --rm -e SECRET_KEY=my-secret-key \
+    -e MAIL_SERVER=smtp.googlemail.com -e MAIL_PORT=587 -e MAIL_USE_TLS=true \
+    -e MAIL_USERNAME=<your-gmail-username> -e MAIL_PASSWORD=<your-gmail-password> \
+    --network microblog-network \
+    -e DATABASE_URL=mysql+pymysql://microblog:<database-password>@mysql/microblog \
+    -e ELASTICSEARCH_URL=http://elasticsearch:9200 \
+    microblog:latest
+
+# View containers
+docker ps
+
+# Stop container
+docker stop microblog
+
+# View logs
+docker logs microblog
+
+# Push image to Docker repository
+docker login
+docker tag microblog:latest <your-docker-registry-account>/microblog:latest
+docker push <your-docker-registry-account>/microblog:latest
+```
+
 ## Comparison to Django
 - Nice SQL syntax (Django has it's own version of SQL)
 - Django views.py and urls.py are combined into Flask routes.py
@@ -377,3 +424,13 @@ sudo supervisorctl start microblog    # start a new server
 
 ### Chapter 18: Deploy on Heroku
 - Heroku was one of the first "platform-as-a-service" providers. It started as a hosting option for Ruby based applications, but then grew to support many other languages like Java, Node.js and of course Python.
+
+### Chapter 19: Deploy on Docker
+- The first step in creating a container for Microblog is to build an image for it. A container image is a template that is used to create a container. It contains a complete representation of the container file system, along with various settings pertaining to networking, start up options, etc.
+- The FROM command specifies the base container image on which the new image will be built. 
+- The slim tag selects a container image that has only the minimal packages required to run the Python interpreter.
+- The COPY command transfers files from your machine to the container's file system.
+- The RUN chmod command ensures that this new boot.sh file is correctly set as an executable file.
+- The ENV command sets an environment variable inside the container. I need to set FLASK_APP, which is required to use the flask command.
+- The EXPOSE command configures the port that this container will be using for its server. 
+- the ENTRYPOINT statement defines the default command that should be executed when a container is started with this image. 
