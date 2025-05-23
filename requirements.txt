@@ -13,3 +13,4 @@ flask-moment
 flask-babel
 langdetect
 requests
+elasticsearch

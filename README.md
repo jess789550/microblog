@@ -15,6 +15,12 @@ export FLASK_DEBUG=1
 # Use Google/MS Azure API for translation
 export MS_TRANSLATOR_KEY=<paste-your-key-here>
 
+# Run Elasticsearch with Docker
+docker run --name elasticsearch -d --rm -p 9200:9200 \
+    --memory="2GB" \
+    -e discovery.type=single-node -e xpack.security.enabled=false \
+    -t docker.elastic.co/elasticsearch/elasticsearch:8.11.1
+
 # Run app
 flask run
 ```
@@ -196,3 +202,7 @@ flask translate compile
 ### Chapter 15: Better Application Structure
 - In Flask, a blueprint is a logical structure that represents a subset of the application. A blueprint can include elements such as routes, view functions, forms, templates and static files.
 - The contents of a blueprint are initially in a dormant state. To activate these elements, the blueprint needs to be registered with the application.
+
+### Chapter 16: Full Text Search
+- There are several open-source full-text engines: Elasticsearch, Apache Solr, Whoosh, Xapian, Sphinx, etc.
+- Elasticsearch is one that stands out to me as being fairly popular, in part due to its popularity as the "E" in the ELK stack for indexing logs, along with Logstash and Kibana.
