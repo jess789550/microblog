@@ -14,6 +14,6 @@ flask-babel
 langdetect
 requests
 elasticsearch
-gunicorn
 pymysql
+gunicorn
 cryptography

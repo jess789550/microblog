@@ -174,12 +174,8 @@ git checkout v0.17
 python3 -m venv venv
 source venv/bin/activate
 
-# .env file
-SECRET_KEY=52cb883e323b48d78a0a36e8e951ba4a
-MAIL_SERVER=localhost
-MAIL_PORT=25
-DATABASE_URL=mysql+pymysql://microblog:<db-password>@localhost:3306/microblog
-MS_TRANSLATOR_KEY=<your-translator-key-here>
+# Install extra requirements
+pip install gunicorn pymysql cryptography
 
 # Generate secret key for .env file
 python3 -c "import uuid; print(uuid.uuid4().hex)"
