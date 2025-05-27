@@ -437,3 +437,10 @@ docker push <your-docker-registry-account>/microblog:latest
 
 ### Chapter 20: Some JavaScript Magic
 - Pop-ups: Bootstrap comes bundled with many common UI elements, all of which have demos and examples in the Bootstrap documentation at https://getbootstrap.com. One of these components is the Popover, which is described in the documentation as a "small overlay of content, for housing secondary information".
+
+### Chapter 21: User Notifications
+- WebSocket is a protocol that unlike HTTP, establishes a permanent connection between the server and the client.
+- The advantage of this mechanism is that whenever an event that is of interest to the client occurs, the server can send a notification, without any delays. 
+- The disadvantage is that WebSocket requires a more complicated setup than HTTP, because the server needs to maintain a permanent connection with each and every client. 
+- The DOMContentLoaded event is how you register a function to execute after the page loads.
+- The setTimeout() JavaScript function runs the function given as an argument after the specific time passes.
