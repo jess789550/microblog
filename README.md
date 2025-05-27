@@ -434,3 +434,6 @@ docker push <your-docker-registry-account>/microblog:latest
 - The ENV command sets an environment variable inside the container. I need to set FLASK_APP, which is required to use the flask command.
 - The EXPOSE command configures the port that this container will be using for its server. 
 - the ENTRYPOINT statement defines the default command that should be executed when a container is started with this image. 
+
+### Chapter 20: Some JavaScript Magic
+- Pop-ups: Bootstrap comes bundled with many common UI elements, all of which have demos and examples in the Bootstrap documentation at https://getbootstrap.com. One of these components is the Popover, which is described in the documentation as a "small overlay of content, for housing secondary information".
