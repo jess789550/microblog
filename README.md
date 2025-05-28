@@ -444,3 +444,9 @@ docker push <your-docker-registry-account>/microblog:latest
 - The disadvantage is that WebSocket requires a more complicated setup than HTTP, because the server needs to maintain a permanent connection with each and every client. 
 - The DOMContentLoaded event is how you register a function to execute after the page loads.
 - The setTimeout() JavaScript function runs the function given as an argument after the specific time passes.
+
+### Chapter 22: Background Jobs
+- Task queues provide a convenient solution for the application to request the execution of a task by a worker process. 
+- Worker processes run independently of the application and can even be located on a different system. 
+- The communication between the application and the workers is done through a message queue. 
+- The application submits a job, and then monitors its progress by interacting with the queue.
