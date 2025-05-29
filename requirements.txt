@@ -19,3 +19,5 @@ gunicorn
 cryptography
 psycopg2-binary
 rq
+httpie
+flask-httpauth

@@ -14,11 +14,13 @@ from elasticsearch import Elasticsearch
 from redis import Redis
 import rq
 
+# Initialise translations and languages
 def get_locale():
     return request.accept_languages.best_match(current_app.config['LANGUAGES'])
 #    return 'es'
 #    return 'de'
 
+# Initialise Flask extensions
 #app = Flask(__name__)
 #app.config.from_object(Config)
 db = SQLAlchemy()
@@ -30,6 +32,7 @@ mail = Mail()
 moment = Moment()
 babel = Babel()
 
+# Create the Flask application
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
@@ -58,7 +61,11 @@ def create_app(config_class=Config):
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)
 
+    from app.api import bp as api_bp
+    app.register_blueprint(api_bp, url_prefix='/api')
+
     if not app.debug and not app.testing:
+        # Set up email 
         if app.config['MAIL_SERVER']:
             auth = None
             if app.config['MAIL_USERNAME'] or app.config['MAIL_PASSWORD']:
@@ -73,7 +80,8 @@ def create_app(config_class=Config):
                 credentials=auth, secure=secure)
             mail_handler.setLevel(logging.ERROR)
             app.logger.addHandler(mail_handler)
-
+       
+        # Set up file logging
         if not os.path.exists('logs'):
             os.mkdir('logs')
         file_handler = RotatingFileHandler('logs/microblog.log', maxBytes=10240,

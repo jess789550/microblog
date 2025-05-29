@@ -386,6 +386,7 @@ docker push <your-docker-registry-account>/microblog:latest
     - The "new school" approach would be to not change a thing in the server, and let the conversion from UTC to local timezone happen in the browser, using JavaScript.
 - Moment.js is a small open-source JavaScript library that takes date and time rendering to another level, as it provides every imaginable formatting option, and then some.
     - Moment.js makes a moment class available to the browser. The first step to render a timestamp is to create an object of this class, passing the desired timestamp in ISO 8601 format: {yyyy}-{mm}-{dd}T{hh}:{mm}:{ss}{tz}
+- ISO 8601 is an international standard covering the worldwide exchange and communication of date and time-related data. 
 
 ### Chapter 13: I18n and L10n
 - Internationalization and Localization, commonly abbreviated I18n and L10n
@@ -450,3 +451,14 @@ docker push <your-docker-registry-account>/microblog:latest
 - Worker processes run independently of the application and can even be located on a different system. 
 - The communication between the application and the workers is done through a message queue. 
 - The application submits a job, and then monitors its progress by interacting with the queue.
+
+### Chapter 23: APIs
+-  An API is a collection of HTTP routes that are designed as low-level entry points into the application. 
+- Instead of defining routes and view functions that return HTML to be consumed by web browsers, APIs allow the client to work directly with the application's resources, leaving the decision of how to present the information to the user entirely to the client.
+- REST stands for Representational State Transfer
+    - Client-server: In a REST API the roles of the client and the server should be clearly differentiated: HTTP protocol over a TCP network
+    - Layered system: The layered system principle says that when a client needs to communicate with a server, it may end up connected to an intermediary and not the actual server. 
+    - Cache: It is allowed for the server or an intermediary to cache responses to requests that are received often to improve system performance
+    - Code on demand: The server can provide executable code in responses to the client
+    - Stateless: A REST API should not save any client state to be recalled every time a given client sends a request. Every request needs to include the information that the server needs to identify and authenticate the client and to carry out the request. It also means that the server cannot store any data related to the client connection in a database or other form of storage.
+    - Uniform interface: unique resource identifiers (unique URL), resource representations (JSON), self-descriptive messages (GET/POST/PUT/PATCH/DELETE), and hypermedia (JSON-API, HAL, JSON-LD)
